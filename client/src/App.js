@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext, useState } from "react";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import Routes from "./components/Routes";
+import LandingPage from "./components/Landing/LandingPage";
+import UserContext from "./context/UserContext";
+import PublicRoutes from './components/Landing/PublicRoutes';
 
-function App() {
+const App = () => {
+  const [auth, setAuth] = useState(localStorage.getItem("token") || "");
+  const [userId, setUserId] = useState(null);
+  const [email, setEmail] = useState(null);
+  const context = {
+    auth,
+    setAuth,
+    userId,
+    setUserId,
+    email,
+    setEmail,
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserContext.Provider value={context}>
+      <Routes />
+    </UserContext.Provider>
   );
-}
+};
 
 export default App;
