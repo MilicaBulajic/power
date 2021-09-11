@@ -1,10 +1,12 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-
+const userRouter = require("./routes/users");
 const server = express();
 server.use(morgan("dev"));
 server.use(cors({ origin: true }));
+
+server.use(userRouter);
 
 server.get("/", (req, res) => {
   res.send({ message: "Hello, connection succeeded" });
