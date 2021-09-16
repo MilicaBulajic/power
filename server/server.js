@@ -13,17 +13,20 @@ server.use(express.static(path));
 server.use(morgan("dev"));
 server.use(cors({ origin: true }));
 
-server.use(userRouter);
+server.use("/login", userRouter);
 server.use("/task", taskRouter);
 server.use("/project", projectRouter);
 server.use("/team", teamRouter);
 server.use("/tasklist", tasklistRouter);
 
-server.get("/", (req, res) => {
-  res.send({ message: "Hello, connection succeeded" });
+
+
+server.get("/*", (req, res) => {
+  res.sendFile(path + 'index.html');
 });
 
-
+server.use(express.json()); //Used to parse JSON bodies
+server.use(express.urlencoded());
 
 
 
