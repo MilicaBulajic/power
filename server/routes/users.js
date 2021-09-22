@@ -3,121 +3,64 @@ const bcrypt = require("bcryptjs");
 const { asyncHandler } = require("./utilities/utils");
 const { check, validationResult } = require("express-validator");
 const { User } = require("../db/models");
-const { getUserToken } = require("./utilities/auth");
+const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 
-validateUserFields = [
-  check("username")
-    .exists({ checkFalsy: true })
-    .withMessage("Please provide a username"),
-  check("email")
-    .exists({ checkFalsy: true })
-    .withMessage("Please provide a valid email"),
-  check("password")
-    .exists({ checkFalsy: true })
-    .withMessage("Please provide a valide password"),
-];
-
-const validateEmailPassword = [
-  check("email")
-    .exists({ checkFalsy: true })
-    .withMessage("Please provide a valid email"),
-  check("password")
-    .exists({ checkFalsy: true })
-    .withMessage("Please provide a valid password"),
-];
-
-
-
 
 router.post(
-  "/register",
-  validateUserFields,
-  asyncHandler(async (req, res) => {
-    const validatorErr = validationResult(req);
-
-    if (!validatorErr.isEmpty()) {
-      const errors = validatorErr.array().map((error) => error.msg);
-      res.status(422).json(["Errors", ...errors]);
-      return;
-    }
-
+  "/register", async (req, res) => {
     const { name, email, password } = req.body;
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const alreadyExistUser = await User.findOne ({ where: { email } }).catch (
+      (err) => {
+        console.log("error: ", err)
+      }
+    );
 
-    // try {
-    const existingUser = await User.findOne({
-      where: {
-        email: email,
-      },
-    });
-    if (existingUser) {
-      res.status(422).send({ Error: "User already exists" });
-      return;
+    if(alreadyExistUser) {
+      return res.json({message: "User with this email already exists!"});
     }
 
-    const user = await User.create({
-      name: name,
-      email: email,
-      hashed_password: hashedPassword,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+    const newUser = new User({ name, email, password });
+    const savedUser = await newUser.save().catch((err) => {
+      console.log("Error: ", err);
+      res.status(500).json({ error: "Cannot register user at the moment!" });
     });
+  
+    if (savedUser) res.json({ message: "Thanks for registering" });
+  });
 
-    const token = getUserToken(user);
 
-    res.status(200).json({
-      id: user.id,
-      token,
-      email: user.email,
-    });
-    // } catch (err) {
-    //   res.status(422).send({ error: err.errors[0].message });
-    // }
-  })
-);
 
-router.post(
-  "/login",
-  validateEmailPassword,
-  asyncHandler(async (req, res, next) => {
-    const validatorErr = validationResult(req);
-
-    if (!validatorErr.isEmpty()) {
-      const errors = validatorErr.array().map((error) => error.msg);
-      res.json(["ERRORS", ...errors]);
-      return;
-    }
+  router.post("/login", async (req, res) => {
     const { email, password } = req.body;
-
-    // if (!email || !password) {
-    //   return res.status(422).send({ error: "Must provide email and password" });
-    // }
-    const user = await User.findOne({
-      where: {
-        email,
-      },
-    });
-    if (!user || !user.validatePassword(password)) {
-      const err = new Error("Login Failed");
-      err.status = 401;
-      err.title = "Login Failed";
-      err.errors = ["The provided credentials were invalid"];
-      res.json(err);
-      return;
-    }
-
-    const token = getUserToken(user);
-
-    res.status(200).json({
-      id: user.id,
-      token,
-      email: user.email,
-    });
-  })
-);
+  
+    const userWithEmail = await User.findOne({ where: { email } }).catch(
+      (err) => {
+        console.log("Error: ", err);
+      }
+    );
+  
+    if (!userWithEmail)
+      return res
+        .status(400)
+        .json({ message: "Email or password does not match!" });
+  
+    if (userWithEmail.password !== password)
+      return res
+        .status(400)
+        .json({ message: "Email or password does not match!" });
+  
+    const jwtToken = jwt.sign(
+      { id: userWithEmail.id, email: userWithEmail.email },
+      process.env.JWT_SECRET
+    );
+  
+    res.json({ message: "Welcome Back!", token: jwtToken });
+  });
 
 
+  
+ 
 module.exports = router;

@@ -6,6 +6,7 @@ const taskRouter = require("./routes/tasks");
 const projectRouter = require("./routes/projects");
 const teamRouter = require("./routes/teams");
 const tasklistRouter = require("./routes/tasklists");
+require("./auth/passport");
 const server = express();
 const path = __dirname + '/views/';
 server.use(express.static(path));
@@ -13,7 +14,10 @@ server.use(express.static(path));
 server.use(morgan("dev"));
 server.use(cors({ origin: true }));
 
-server.use("/login", userRouter);
+server.use(express.json()); //Used to parse JSON bodies
+server.use(express.urlencoded());
+
+server.use(userRouter);
 server.use("/task", taskRouter);
 server.use("/project", projectRouter);
 server.use("/team", teamRouter);
@@ -25,8 +29,7 @@ server.get("/*", (req, res) => {
   res.sendFile(path + 'index.html');
 });
 
-server.use(express.json()); //Used to parse JSON bodies
-server.use(express.urlencoded());
+
 
 
 
