@@ -7,32 +7,23 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Register from "./Landing/RegisterPage";
+import { Link } from 'react-router-dom';
+import "../css/Navbar.css";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
 
 export default function NavBar() {
-  const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
+    <div className="navbar">
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6">
             Power
           </Typography>
-          <Button color="inherit" href="/register">register</Button>
+          <div className="links">
+            <Link to="/register">Register</Link>
+            <Link to="/login">Login</Link>
+          </div>
         </Toolbar>
-      </AppBar>
     </div>
   );
 }

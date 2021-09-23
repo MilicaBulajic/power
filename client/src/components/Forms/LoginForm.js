@@ -2,7 +2,8 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import UserContext from "../../context/UserContext";
 import apiServer from "./../../service/apiServer";
-
+import TextField from '@material-ui/core/TextField';
+import "./../../css/Login.css";
 
 const LoginForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -28,26 +29,26 @@ const LoginForm = () => {
   };
 
 return (
-  <form onSubmit={handleSubmit(onSubmit)}>
+  <form className="login" onSubmit={handleSubmit(onSubmit)}>
     <div>
-      <label htmlFor="email">Email Address</label>
-      <input
+    <TextField
         {...register('email', { required: true })}
         name="email"
         type="email"
-        placeholder="Email address"
-        ></input>
+        label="Email address"
+        variant="filled"
+        />
         {errors.email && errors.email.type === "required" && <span>This is required</span>}
     </div>
     <div>
-      <label htmlFor="password">Password</label>
-      <input
+    <TextField
         name="password"
         type="password"
-        placeholder="password"
-        ></input>
+        label="Password"
+        variant="filled"
+        />
     </div>
-    <button type="submit">Login</button>
+    <button className="button" type="submit">Login</button>
   </form>
   );
 };

@@ -1,0 +1,16 @@
+.navbar {
+    background-color: #e8887c;
+    color: white;
+}
+.links {
+    text-align: right;
+    flex-grow: 1;
+}
+.links a {
+    padding: 0px 10px;
+    word-wrap: normal;
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+}

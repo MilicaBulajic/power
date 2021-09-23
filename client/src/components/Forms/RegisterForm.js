@@ -2,6 +2,9 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import UserContext from "../../context/UserContext";
 import apiServer from "./../../service/apiServer";
+import TextField from '@material-ui/core/TextField';
+import "./../../css/Register.css";
+
 
 const RegisterForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -15,6 +18,7 @@ const RegisterForm = () => {
       localStorage.setItem("email", res.data.email);
       localStorage.setItem("userId", res.data.id);
       localStorage.setItem("token", res.data.token);
+      window.location.href = "/register/onboard";
       setErrorMessage("");
       setAuth(res.data.token);
       setUserId(res.data.id);
@@ -26,36 +30,36 @@ const RegisterForm = () => {
   };
 
 return (
-  <form onSubmit={handleSubmit(onSubmit)}>
+  <form className="register" onSubmit={handleSubmit(onSubmit)}>
     <div>
-      <label htmlFor="email">Full Name</label>
-      <input
+      <TextField
         {...register('name', { required: true })}
+        label="First Name"
+        variant="filled"
         name="name"
         type="name"
-        placeholder="Full Name"
-        ></input>
+        />
         {errors.name && errors.name.type === "required" && <span>This is required</span>}
     </div>
     <div>
-      <label htmlFor="email">Email Address</label>
-      <input
+      <TextField
         {...register('email', { required: true })}
         name="email"
         type="email"
-        placeholder="Email address"
-        ></input>
+        label="Email address"
+        variant="filled"
+        />
         {errors.email && errors.email.type === "required" && <span>This is required</span>}
     </div>
     <div>
-      <label htmlFor="password">Password</label>
-      <input
+      <TextField
         name="password"
         type="password"
-        placeholder="password"
-        ></input>
+        label="Password"
+        variant="filled"
+        />
     </div>
-    <button type="submit">Register</button>
+    <button className="button" type="submit">Register</button>
   </form>
   );
 };
