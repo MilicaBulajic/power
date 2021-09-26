@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const { asyncHandler } = require("./utilities/utils");
 const { check, validationResult } = require("express-validator");
-const { User } = require("../db/models");
+const { User, Team, UserTeam } = require("../db/models");
 const jwt = require("jsonwebtoken");
 
 const router = express.Router();
@@ -61,6 +61,28 @@ router.post(
   });
 
 
+  router.put("/register/onboard", async (req, res) => {
+    const { email, teamName } = req.body;
+
+    const user = await User.findOne({
+      where: {
+        email: email,
+      },
+    });
   
+    const team = await Team.create({
+      name: teamName,
+    });
+  
+    const userTeam = await UserTeam.create({
+      user_id: user.id,
+      team_id: team.id,
+    });
+
+  
+    res.json({ message: "Welcome Back!", token: jwtToken });
+  });
+
+
  
 module.exports = router;
