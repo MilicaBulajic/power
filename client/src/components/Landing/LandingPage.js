@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Navbar from './../Navbar'
 
-export default function SimpleContainer() {
+export default function Landing() {
   return (
     <React.Fragment>
       <CssBaseline />

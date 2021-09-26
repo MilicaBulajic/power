@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { useState } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Dasboard from "./Landing/Dasboard";
-import CustomDrawer from "./Navigation/CustomDrawer"
+import CustomDrawer from "./Navigation/CustomDrawer";
+import "../css/CustomDrawer.css";
 
 const PrivateRoutes = () => {
-    return (
-        <BrowserRouter>
-            <Switch>
-                <CustomDrawer>
-                     <Route exact path="/" component={Dasboard} />
-                </CustomDrawer>
-            </Switch> 
-        </BrowserRouter> 
-    )
+  const [drawer, setDrawer] = useState(true);
+  const showDrawer = () => setDrawer(!drawer);
+  return (
+    <BrowserRouter>
+      <div className="overlay">
+        <CustomDrawer showDrawer={showDrawer} drawer={drawer} />
+        <div className="overlay-right-side">
+          <Switch>
+            <Route exact path="/" component={Dasboard} />
+          </Switch>
+        </div>
+      </div>
+    </BrowserRouter>
+  );
 };
 
 export default PrivateRoutes;

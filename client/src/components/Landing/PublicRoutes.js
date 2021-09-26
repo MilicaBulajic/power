@@ -11,7 +11,7 @@ const PublicRoutes = () => {
             <Switch>
                 <Route exact path="/" component={Landing} />
                 <Route path="/login" component={LoginPage} />
-                <Route path="/register" component={RegisterPage} />
+                <Route exact path="/register" component={RegisterPage} />
                 <Route exact path="/register/onboard" component={Onboard} />
                 <Route
                  path="/*"
