@@ -17,6 +17,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import TopNav from './TopNav';
 
 const drawerWidth = 240;
 
@@ -118,7 +119,7 @@ export default function CustomDrawer() {
           >
             <MenuIcon />
           </IconButton>
-
+            <TopNav />
         </Toolbar>
       </AppBar>
         <DrawerHeader>
