@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Task extends Model {
     /**
@@ -11,20 +9,52 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Task.belongsTo(models.TaskList, {
+        foreignKey: "tasklist_id",
+      });
+
+      Task.belongsTo(models.User, {
+        foreignKey: "assignee_id",
+      });
+
+      Task.belongsTo(models.Project, {
+        foreignKey: "project_id",
+      });
+
+      Task.hasMany(models.Comment, {
+        foreignKey: "task_id",
+        onDelete: "CASCADE",
+        hooks: true,
+      });
     }
-  };
-  Task.init({
-    name: DataTypes.STRING,
-    tasklist_id: DataTypes.INTEGER,
-    assignee_id: DataTypes.INTEGER,
-    project_id: DataTypes.INTEGER,
-    task_index: DataTypes.INTEGER,
-    description: DataTypes.STRING,
-    due_date: DataTypes.DATE,
-    completed: DataTypes.BOOLEAN
-  }, {
-    sequelize,
-    modelName: 'Task',
-  });
+  }
+  Task.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      tasklist_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      assignee_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      project_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      description: DataTypes.TEXT,
+      due_date: DataTypes.DATE,
+      completed: DataTypes.BOOLEAN,
+      completed_at: DataTypes.DATE,
+    },
+    {
+      sequelize,
+      modelName: "Task",
+    }
+  );
   return Task;
 };
