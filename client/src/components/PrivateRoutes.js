@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import Dasboard from "./Landing/Dasboard";
+import Dasboard from "./Landing/Dashboard";
 import CustomDrawer from "./Navigation/CustomDrawer";
 import "../css/CustomDrawer.css";
 
