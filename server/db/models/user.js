@@ -67,23 +67,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      hashed_password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: "Please provide a value for password.",
-          },
-          len: {
-            args: [8, 255],
-            msg: "Length needs to be between 8 - 255 characters.",
-          },
-        },
-      },
-      image: {
-        type: DataTypes.STRING,
-      },
+
     },
     {
       sequelize,
