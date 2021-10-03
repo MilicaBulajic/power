@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import UserContext from "../../context/UserContext";
+import AuthContext from "../../context/AuthContext";
 import apiServer from "./../../service/apiServer";
 import TextField from '@material-ui/core/TextField';
 import "./../../css/Login.css";
@@ -9,7 +9,7 @@ const LoginForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const [errorMessage, setErrorMessage] = useState("");
-  const { setAuth, setEmail, setUserId } = useContext(UserContext);
+  const { setAuth, setEmail, setUserId } = useContext(AuthContext);
 
   const onSubmit = async ({ email, password }) => {
     try {

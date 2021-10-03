@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
-import UserContext from "../../context/UserContext";
+import AuthContext from "../../context/AuthContext";
 import apiServer from "../../service/apiServer";
 import { useForm } from "react-hook-form";
 
 
 const Onboard = (props) => {
   const { register, handleSubmit, errors } = useForm();
-  const { setAuth } = useContext(UserContext);
+  const { setAuth } = useContext(AuthContext);
 
   const [errorMessage, setErrorMessage] = useState("");
   const onboard = async ({ teamName }) => {

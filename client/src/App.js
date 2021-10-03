@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Routes from "./components/Routes";
 import LandingPage from "./components/Landing/LandingPage";
-import UserContext from "./context/UserContext";
+import AuthContext from "./context/AuthContext";
 import PublicRoutes from './components/Landing/PublicRoutes';
 
 const App = () => {
@@ -19,9 +19,9 @@ const App = () => {
   };
 
   return (
-    <UserContext.Provider value={context}>
+    <AuthContext.Provider value={context}>
       <Routes />
-    </UserContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
