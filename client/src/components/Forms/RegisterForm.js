@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import UserContext from "../../context/UserContext";
+import AuthContext from "../../context/AuthContext";
 import apiServer from "./../../service/apiServer";
 import TextField from '@material-ui/core/TextField';
 import "./../../css/Register.css";
@@ -8,7 +8,7 @@ import "./../../css/Register.css";
 
 const RegisterForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { setAuth, setEmail, setUserId } = useContext(UserContext);
+  const { setAuth, setEmail, setUserId, setUser } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
   
   const onSubmit = async ({ name, email, password }) => {
@@ -18,7 +18,7 @@ const RegisterForm = () => {
       localStorage.setItem("email", res.data.email);
       localStorage.setItem("userId", res.data.id);
       localStorage.setItem("token", res.data.token);
-      window.location.href = "/register/onboard";
+      window.location.href = "/dashboard";
       setErrorMessage("");
       setAuth(res.data.token);
       setUserId(res.data.id);

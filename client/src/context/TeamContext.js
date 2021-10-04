@@ -1,4 +1,4 @@
-import createContext from "./createContext";
+import createMainContext from "./createMainContext";
 
 const teamReducer = (state, action) => {
   switch (action.type) {
@@ -7,4 +7,4 @@ const teamReducer = (state, action) => {
   }
 };
 
-export const { Provider, Context } = createContext(teamReducer, {}, []);
+export const { Provider, Context } = createMainContext(teamReducer, {}, []);

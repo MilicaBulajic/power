@@ -3,12 +3,14 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Routes from "./components/Routes";
 import LandingPage from "./components/Landing/LandingPage";
 import AuthContext from "./context/AuthContext";
+import { Provider as UserProvider } from "./context/UserContext";
 import PublicRoutes from './components/Landing/PublicRoutes';
 
 const App = () => {
   const [auth, setAuth] = useState(localStorage.getItem("token") || "");
-  const [userId, setUserId] = useState(null);
-  const [email, setEmail] = useState(null);
+  const [userId, setUserId] = useState(localStorage.getItem("userId") || null);
+  const [email, setEmail] = useState(localStorage.getItem("email") || null);
+  const [user, setUser] = useState(localStorage.getItem("user") || null);
   const context = {
     auth,
     setAuth,
@@ -16,11 +18,15 @@ const App = () => {
     setUserId,
     email,
     setEmail,
+    user,
+    setUser,
   };
 
   return (
     <AuthContext.Provider value={context}>
-      <Routes />
+      <UserProvider>
+       <Routes />
+      </UserProvider>
     </AuthContext.Provider>
   );
 };

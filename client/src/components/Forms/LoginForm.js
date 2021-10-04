@@ -9,7 +9,7 @@ const LoginForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const [errorMessage, setErrorMessage] = useState("");
-  const { setAuth, setEmail, setUserId } = useContext(AuthContext);
+  const { setAuth, setEmail, setUserId, setUser } = useContext(AuthContext);
 
   const onSubmit = async ({ email, password }) => {
     try {
@@ -18,10 +18,12 @@ const LoginForm = () => {
       localStorage.setItem("email", res.data.email);
       localStorage.setItem("userId", res.data.id);
       localStorage.setItem("token", res.data.token);
+      window.location.href = "/dashboard";
       setErrorMessage("");
       setAuth(res.data.token);
       setUserId(res.data.id);
       setEmail(res.data.email);
+      setUser(res.data);
     } catch (err) {
       console.log(err.status);
       setErrorMessage("Something went wrong");
