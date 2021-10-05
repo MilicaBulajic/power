@@ -13,7 +13,7 @@ const PrivateRoutes = () => {
         <CustomDrawer showDrawer={showDrawer} drawer={drawer} />
         <div className="overlay-right-side">
           <Switch>
-            <Route exact path="/dashboard" component={Dasboard} />
+            <Route exact path="/" component={Dasboard} />
           </Switch>
         </div>
       </div>

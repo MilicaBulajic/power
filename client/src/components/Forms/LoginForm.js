@@ -18,7 +18,7 @@ const LoginForm = () => {
       localStorage.setItem("email", res.data.email);
       localStorage.setItem("userId", res.data.id);
       localStorage.setItem("token", res.data.token);
-      window.location.href = "/dashboard";
+      window.location.href = "/";
       setErrorMessage("");
       setAuth(res.data.token);
       setUserId(res.data.id);
