@@ -1,20 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
-import Tasks from './../Pages/Tasks'
+import Tasks from "./../Pages/Tasks";
 import { Context as UserContext } from "./../../context/UserContext";
+import MotivationalQuotes from "../quotes/MotivationalQuotes";
 
 const Dashboard = () => {
-    const { getUserInfo } = useContext(UserContext);
+  const { getUserInfo } = useContext(UserContext);
 
-    useEffect(() => {
-      getUserInfo();
-    }, []);
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
-    return (
-        <div>
-            <p>Welcome to Dasboard</p>
-            <Tasks />
-        </div>
-    );
+  return (
+    <div>
+          <MotivationalQuotes />
+    </div>
+  );
 };
 
 export default Dashboard;
