@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import moment from "moment";
 
 const Task = ({ task }) => {
     const date = moment(
@@ -11,7 +12,6 @@ const Task = ({ task }) => {
         };
           return (
             <div>
-              <li className="task-home-item" onClick={openModal}>
                 <div>
                   <p>{task.name}</p>
                 </div>

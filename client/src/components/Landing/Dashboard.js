@@ -13,6 +13,7 @@ const Dashboard = () => {
   return (
     <div>
           <MotivationalQuotes />
+          <Tasks />
     </div>
   );
 };
