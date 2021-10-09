@@ -40,6 +40,11 @@ router.post(
       task_id: task_id,
       user_id: user_id,
     });
+    if (!comment) {
+      res.status(404);
+    } else {
+      res.status(201);
+    }
   })
 );
 

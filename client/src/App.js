@@ -1,8 +1,11 @@
 import React, { useContext, useState } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Routes from "./components/Routes";
-import LandingPage from "./components/Landing/LandingPage";
 import AuthContext from "./context/AuthContext";
+import UserStore from "./context/store/UserStore";
+import TeamStore from "./context/store/TeamStore";
+import TaskStore from "./context/store/TaskStore";
+import ProjectStore from "./context/store/ProjectStore";
 import { Provider as UserProvider } from "./context/UserContext";
 import PublicRoutes from './components/Landing/PublicRoutes';
 
@@ -24,9 +27,18 @@ const App = () => {
 
   return (
     <AuthContext.Provider value={context}>
-      <UserProvider>
-       <Routes />
-      </UserProvider>
+      <UserStore>
+        <ProjectStore>
+          <TeamStore>
+            <TaskStore>
+              {/* {state.auth ? <Routes /> : <LandingRoutes/> } */}
+              {/* <Route exact path="/" component={LandingPage}></Route> */}
+              <Routes />
+              {/* {state.auth ? <Route path="/" component={Home} /> : <Routes />} */}
+            </TaskStore>
+          </TeamStore>
+        </ProjectStore>
+      </UserStore>
     </AuthContext.Provider>
   );
 };
