@@ -3,15 +3,26 @@ import { Context as TaskContext } from "../../context/store/TaskStore";
 import TaskDetails from "../tasks/TaskDetails";
 import moment from "moment";
 import apiServer from "../../service/apiServer";
+import TaskForm from '../Forms/TaskForm'
 
 const Tasks = () => {
+  const [taskState, taskdispatch] = useContext(TaskContext);
   const [tasks, setTasks] = useState();
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+
   const getUserTasks = async () => {
     const id = localStorage.getItem("userId");
     const res = await apiServer.get(`/task/user/${id}`);
     setTasks(res.data);
     setLoading(false);
+  };
+  const openModal = () => {
+    setOpen(true);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -19,8 +30,14 @@ const Tasks = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading..</div>
+    return <div>Loading...</div>
   }
+
+  const modalBody = (
+    <div className="modal-container">
+      <TaskForm clickClose={closeModal} open={open}></TaskForm>
+    </div>
+  );
 
   const recentlyAdded = tasks.filter((task) => {
     const date = new Date(task.createdAt);
