@@ -11,11 +11,16 @@ module.exports = (sequelize, DataTypes) => {
       Team.hasMany(models.Project, {
         foreignKey: "team_id",
       });
+
       Team.belongsToMany(models.User, {
         foreignKey: "team_id",
         through: "UserTeams",
         otherKey: "user_id",
       });
+
+      // Team.hasMany(models.UserTeam, {
+      //   foreignKey: "team_id",
+      // });
     }
   }
   Team.init(

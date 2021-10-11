@@ -9,14 +9,6 @@ import { Context as ProjectContext } from "../../context/store/ProjectStore";
 
 
 const HomePage = () => {
-  const [getUserInfo] = useContext(UserContext);
-  const [taskState] = useContext(TaskContext);
-  const [projectState] = useContext(ProjectContext);
-  const taskList = taskState.tasks.map((task, i) => {
-    return !task.completed && <Task task={task} key={i} />;
-  });
-
-
 
   return (
     <>
