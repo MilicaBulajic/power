@@ -9,6 +9,14 @@ import { Context as ProjectContext } from "../../context/store/ProjectStore";
 
 
 const HomePage = () => {
+  const [userState] = useContext(UserContext);
+  const [taskState] = useContext(TaskContext);
+  const [projectState] = useContext(ProjectContext);
+
+  const uncompletedTaskList = taskState.tasks.filter((task) => {
+    return !task.completed;
+  });
+
 
   return (
     <>
