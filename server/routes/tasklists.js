@@ -38,7 +38,6 @@ router.post(
       description,
       due_date,
       completed,
-      completed_at,
       project_id,
       user_id,
     } = req.body;
@@ -47,7 +46,6 @@ router.post(
       description,
       due_date,
       completed,
-      completed_at,
       project_id,
     });
     if (!task) {

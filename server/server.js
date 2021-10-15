@@ -5,6 +5,7 @@ const userRouter = require("./routes/users");
 const taskRouter = require("./routes/tasks");
 const projectRouter = require("./routes/projects");
 const teamRouter = require("./routes/teams");
+const commentRouter = require("./routes/comments");
 const tasklistRouter = require("./routes/tasklists");
 require("./auth/passport");
 const server = express();
@@ -22,10 +23,12 @@ server.use("/task", taskRouter);
 server.use("/project", projectRouter);
 server.use("/team", teamRouter);
 server.use("/tasklist", tasklistRouter);
+server.use("/comment", commentRouter);
 
 
 
-server.get("/*", (req, res) => {
+
+server.get("/", (req, res) => {
   res.sendFile(path + 'index.html');
 });
 

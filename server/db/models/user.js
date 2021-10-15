@@ -9,12 +9,6 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      User.hasMany(models.Project, {
-        foreignKey: "owner_id",
-        onDelete: "CASCADE",
-        hooks: true,
-      });
-
       User.hasMany(models.TaskList, {
         foreignKey: "owner_id",
         onDelete: "CASCADE",
@@ -38,6 +32,15 @@ module.exports = (sequelize, DataTypes) => {
         through: "UserTeam",
         otherKey: "team_id",
       });
+
+      User.belongsToMany(models.Project, {
+        foreignKey: "user_id",
+        through: "UserProject",
+        otherKey: "project_id",
+      });
+      // User.hasMany(models.UserTeam, {
+      //   foreignKey: "user_id",
+      // });
     }
   }
   User.init(
@@ -67,7 +70,23 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-
+      hashed_password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Please provide a value for password.",
+          },
+          len: {
+            args: [8, 255],
+            msg: "Length needs to be between 8 - 255 characters.",
+          },
+        },
+      },
+      image: {
+        type: DataTypes.STRING,
+      },
     },
     {
       sequelize,

@@ -14,6 +14,18 @@ const App = () => {
   const [userId, setUserId] = useState(localStorage.getItem("userId") || null);
   const [email, setEmail] = useState(localStorage.getItem("email") || null);
   const [user, setUser] = useState(localStorage.getItem("user") || null);
+
+  const [drawer, setDrawer] = useState(true);
+  const showDrawer = () => setDrawer(!drawer);
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    localStorage.removeItem("userId");
+    setAuth(null);
+    setEmail(null);
+    setUserId(null);
+  };
+
   const context = {
     auth,
     setAuth,
@@ -23,6 +35,10 @@ const App = () => {
     setEmail,
     user,
     setUser,
+    drawer,
+    setDrawer,
+    showDrawer,
+    logout,
   };
 
   return (
