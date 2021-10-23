@@ -18,35 +18,40 @@ const PrivateRoutes = () => {
   const [projectState, projectdispatch] = useContext(ProjectContext);
   const [teamState, teamdispatch] = useContext(TeamContext);
 
+  const getUserInfo = async () => {
+    const id = localStorage.getItem("userId");
+    const res = await apiServer.get(`/user/${id}`);
+    await userdispatch({ type: "get_user_info", payload: res.data });
+  };
 
-const getUserInfo = async () => {
-  const id = localStorage.getItem("userId");
-  const res = await apiServer.get(`/user/${id}`); 
-  await userdispatch({ type: "get_user_info", payload: res.data });
-}
+  const getUserTasks = async () => {
+    const id = localStorage.getItem("userId");
+    const res = await apiServer.get(`/task/user/${id}`);
+    await taskdispatch({ type: "get_user_tasks", payload: res.data });
+  };
 
-const getUserTasks = async () => {
-  const id = localStorage.getItem("userId");
-  const res = await apiServer.get(`/task/user/${id}`);
-  await taskdispatch({ type: "get_user_tasks", payload: res.data });
-};
-
-useEffect(() => {
-  getUserInfo();
-  getUserTasks();
-}, []);
+  useEffect(() => {
+    getUserInfo();
+    getUserTasks();
+  }, []);
 
   return (
-    <BrowserRouter>
-      <div className="overlay">
+    <div className="overlay">
+      <BrowserRouter>
         <CustomDrawer showDrawer={showDrawer} drawer={drawer} />
-        <div className="overlay-right-side">
+        <div
+          className={
+            drawer
+              ? "overlay-right-container"
+              : "overlay-right-container__short"
+          }
+        >
           <Switch>
             <Route exact path="/" component={HomePage} />
           </Switch>
         </div>
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </div>
   );
 };
 

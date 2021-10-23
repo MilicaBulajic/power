@@ -6,6 +6,7 @@ import MotivationalQuotes from "../quotes/MotivationalQuotes";
 import { Context as UserContext } from "../../context/store/UserStore";
 import { Context as TaskContext } from "../../context/store/TaskStore";
 import { Context as ProjectContext } from "../../context/store/ProjectStore";
+import TopNavbar from "../Navigation/TopNavbar";
 
 
 const HomePage = () => {
@@ -20,8 +21,9 @@ const HomePage = () => {
 
   return (
     <>
+    <TopNavbar />
     <MotivationalQuotes />
-    <Tasks />
+ 
     </>
   );
 };

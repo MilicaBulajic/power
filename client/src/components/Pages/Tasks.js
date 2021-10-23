@@ -14,7 +14,8 @@ const Tasks = () => {
   const getUserTasks = async () => {
     const id = localStorage.getItem("userId");
     const res = await apiServer.get(`/task/user/${id}`);
-    setTasks(res.data);
+    await taskdispatch({ type: "get_user_tasks", payload: res.data });
+
     setLoading(false);
   };
   const openModal = () => {

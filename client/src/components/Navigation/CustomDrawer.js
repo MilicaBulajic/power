@@ -1,162 +1,100 @@
 import React, { useContext } from "react";
-import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import MuiDrawer from '@mui/material/Drawer';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import CssBaseline from '@mui/material/CssBaseline';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import HomeIcon from '@mui/icons-material/Home';
-import MailIcon from '@mui/icons-material/Mail';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
+import Logo from "../../assets/logo.svg";
+import { NavLink } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
+import { Modal } from "@material-ui/core";
+import {
+  RiFolderReceivedLine,
+  RiHomeHeartFill,
+  RiTaskFill,
+  RiMenuFill,
+} from "react-icons/ri";
 
-
-const drawerWidth = 240;
-
-const openedMixin = (theme) => ({
-  width: drawerWidth,
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: 'hidden',
-});
-
-const closedMixin = (theme) => ({
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(9)} + 1px)`,
-  },
-});
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-    color: 'gray',
-    backgroundColor: 'white',
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-      ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
-  }),
-);
-
-export default function CustomDrawer() {
+const CustomDrawer = ({ drawer, showDrawer }) => {
   const { setAuth, setEmail, setUserId } = useContext(AuthContext);
-  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => {
+  const openModal = () => {
     setOpen(true);
   };
 
-  const handleDrawerClose = () => {
+  const closeModal = () => {
     setOpen(false);
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("email");
-    localStorage.removeItem("userId");
-    setAuth(null);
-    setEmail(null);
-    setUserId(null);
-  };
+  // const modalBody = (
+  //   <div className="modal-container">
+  //     <TeamForm clickClose={closeModal} open={open}></TeamForm>
+  //   </div>
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: '36px',
-              ...(open && { display: 'none' }),
+    <div>
+      <div className="drawer-container">
+        <div className={drawer ? "active" : "colapsed"}>
+          <div className="menu-container">
+            <div className="top-menu">
+              <div className="logo">
+                <img src={Logo} alt="Logo" />
+              </div>
+              <div className="main-container" style={{ marginTop: "10px" }}>
+                <NavLink
+                  exact
+                  to="/"
+                  className="main-links"
+                  activeClassName="link--active"
+                >
+                  <div className="link">
+                    <RiHomeHeartFill />
+                    <div>
+                      <p className="link-title">Home</p>
+                    </div>
+                  </div>
+                </NavLink>
+                <NavLink
+                  to="/tasks"
+                  className="main-links"
+                  activeClassName="link--active"
+                >
+                  <div className="link">
+                    <RiTaskFill />
+                    <div>
+                      <p
+                        className="link-title"
+                      >
+                        Tasks
+                      </p>
+                    </div>
+
+                  </div>
+                </NavLink>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {drawer ? null : (
+          <div
+            className="menu-icon"
+            style={{
+              paddingTop: "25px",
+              paddingLeft: "20px",
+              paddingBottom: "22px",
+              backgroundColor: "white",
             }}
           >
-            <MenuIcon />
-          </IconButton>
-          <MenuItem> <Button onClick={logout}>Logout</Button></MenuItem>
-        </Toolbar>
-      </AppBar>
-          <Divider />
-        <Divider />
-        <List>
-          {['HomeIcon', 'Starred'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <HomeIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-      </Box>
-    </Box>
+            <RiMenuFill
+              style={{
+                fontSize: "24px",
+                cursor: "pointer",
+              }}
+              onClick={showDrawer}
+            />
+          </div>
+        )}
+      </div>
+      <Modal open={open} onClose={closeModal}></Modal>
+    </div>
   );
-}
+};
+
+export default CustomDrawer;
